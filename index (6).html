@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Expedición Sociales 6° | IED Marco Fidel Suárez</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#EAF0F9; --surface:#FFFFFF; --surface2:#F3F6FC; --ink:#1E2A47; --muted:#56627F; --line:#D3DBEA;
+  --maize:#F2B705; --maize-ink:#4A3600; --jade:#168C79; --jade-soft:#D6F1EB;
+  --rose:#C93B5C; --rose-soft:#FBE0E7; --indigo:#2B3F7A; --indigo-soft:#E0E7F7;
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111829; --surface:#1A2440; --surface2:#212C4B; --ink:#EEF2FA; --muted:#A8B3CE; --line:#334069;
+    --maize:#F5C534; --maize-ink:#2A1F00; --jade:#3CC4AD; --jade-soft:#123A35;
+    --rose:#F07A93; --rose-soft:#42202A; --indigo:#A3B5F2; --indigo-soft:#263159;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111829; --surface:#1A2440; --surface2:#212C4B; --ink:#EEF2FA; --muted:#A8B3CE; --line:#334069;
+  --maize:#F5C534; --maize-ink:#2A1F00; --jade:#3CC4AD; --jade-soft:#123A35;
+  --rose:#F07A93; --rose-soft:#42202A; --indigo:#A3B5F2; --indigo-soft:#263159;
+  color-scheme: dark;
+}
+*{box-sizing:border-box}
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Nunito",system-ui,-apple-system,"Segoe UI",sans-serif;font-size:17px;line-height:1.55}
+h1,h2,h3{font-family:"Baloo 2","Trebuchet MS",system-ui,sans-serif;line-height:1.15;margin:0}
+button{font:inherit;color:inherit;cursor:pointer}
+button:focus-visible,textarea:focus-visible,input:focus-visible,.card:focus-visible{outline:3px solid var(--maize);outline-offset:2px}
+img{max-width:100%}
+
+/* Barra superior */
+.hud{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--surface);border-bottom:2px solid var(--line)}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--surface)}
+.hud-in{max-width:880px;margin:0 auto;display:flex;align-items:center;gap:.6rem;padding:.55rem 1rem;flex-wrap:wrap}
+.hud-title{font-family:"Baloo 2",sans-serif;font-weight:800;font-size:1.15rem;margin-right:auto;background:none;border:0;padding:0}
+.pill{display:inline-flex;align-items:center;gap:.35rem;background:var(--surface2);border:2px solid var(--line);border-radius:999px;padding:.15rem .7rem;font-weight:800;font-size:.92rem}
+.pill.xp{background:var(--maize);border-color:var(--maize);color:var(--maize-ink)}
+
+main{max-width:880px;margin:0 auto;padding:1.2rem 1rem 4rem}
+
+/* Portada y ruta */
+.hero{text-align:center;padding:1.6rem 0 1rem}
+.hero h1{font-size:clamp(2.4rem,8vw,4rem);font-weight:800;letter-spacing:-.01em}
+.hero h1 .grade{display:inline-block;background:var(--maize);color:var(--maize-ink);border-radius:.4em;padding:0 .25em;transform:rotate(-4deg);margin-left:.1em}
+.hero p{color:var(--muted);max-width:36rem;margin:.6rem auto 0}
+.namebox{background:var(--surface);border:2px solid var(--line);border-radius:22px;padding:1.2rem;max-width:30rem;margin:1.4rem auto 0;text-align:left}
+.namebox label{font-weight:800;display:block;margin-bottom:.4rem}
+.namebox input{width:100%;font:inherit;padding:.7rem .9rem;border-radius:12px;border:2px solid var(--line);background:var(--surface2);color:var(--ink)}
+.namebox .row{display:flex;gap:.6rem;margin-top:.7rem}
+.greet{font-weight:700;margin-top:1rem}
+.rank{display:inline-block;margin-top:.3rem;background:var(--indigo-soft);color:var(--indigo);border-radius:999px;padding:.1rem .8rem;font-weight:800;font-size:.95rem}
+
+.route{list-style:none;padding:0;margin:2rem auto 0;max-width:640px;position:relative}
+.route::before{content:"";position:absolute;left:50%;top:40px;bottom:40px;border-left:4px dashed var(--line);transform:translateX(-2px)}
+.stop{position:relative;display:flex;margin:0 0 1.4rem}
+.stop:nth-child(even){justify-content:flex-end}
+.stop-btn{position:relative;width:min(300px,82%);text-align:left;background:var(--surface);border:3px solid var(--line);border-radius:24px;padding:1rem 1rem 1rem 5.2rem;min-height:96px;transition:transform .15s}
+.stop-btn:not(:disabled):hover{transform:translateY(-2px);border-color:var(--indigo)}
+.stop-btn:disabled{opacity:.6;cursor:not-allowed}
+.stop-num{position:absolute;left:.9rem;top:50%;transform:translateY(-50%);width:3.6rem;height:3.6rem;border-radius:50%;display:grid;place-items:center;font-size:1.7rem;background:var(--indigo-soft);border:3px solid var(--indigo)}
+.stop-btn .t{font-family:"Baloo 2",sans-serif;font-weight:700;font-size:1.15rem;line-height:1.2;display:block}
+.stop-btn .s{color:var(--muted);font-size:.9rem;display:block}
+.stop-btn .state{font-weight:800;font-size:.85rem;display:block;margin-top:.2rem;color:var(--indigo)}
+.stop.done .stop-btn{border-color:var(--jade)}
+.stop.done .stop-num{background:var(--jade-soft);border-color:var(--jade)}
+.stop.done .state{color:var(--jade)}
+.seal{position:absolute;right:-12px;top:-14px;width:64px;height:64px;border-radius:50%;border:3px double var(--rose);color:var(--rose);display:grid;place-items:center;font-family:"Baloo 2",sans-serif;font-weight:800;font-size:.8rem;transform:rotate(14deg);background:var(--surface);line-height:1;text-align:center}
+.stop.final .stop-btn{border-style:dashed}
+.foot{text-align:center;margin-top:2rem;color:var(--muted);font-size:.9rem}
+.linkbtn{background:none;border:0;text-decoration:underline;color:var(--muted);padding:.3rem}
+
+/* Botones */
+.btn{border:0;border-radius:14px;padding:.7rem 1.2rem;font-weight:800;background:var(--surface2);border:2px solid var(--line)}
+.btn.primary{background:var(--indigo);border-color:var(--indigo);color:#fff}
+:root[data-theme="dark"] .btn.primary{color:#111829}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.primary{color:#111829}}
+.btn.go{background:var(--maize);border-color:var(--maize);color:var(--maize-ink)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+
+/* Estación */
+.back{background:none;border:0;font-weight:800;color:var(--indigo);padding:.2rem 0;margin-bottom:.8rem}
+.st-head{display:flex;gap:1rem;align-items:flex-start}
+.st-icon{font-size:2.6rem;line-height:1}
+.st-meta{margin:0;color:var(--muted);font-weight:700;font-size:.9rem}
+.st-head h2{font-size:clamp(1.5rem,5vw,2.1rem)}
+.st-goal{margin:.35rem 0 0;color:var(--muted)}
+.progress{height:12px;background:var(--surface);border:2px solid var(--line);border-radius:999px;margin:1.2rem 0 .8rem;overflow:hidden}
+.progress div{height:100%;background:var(--jade);border-radius:999px;transition:width .4s}
+.moment{display:flex;justify-content:space-between;align-items:center;gap:.5rem;font-weight:800;margin:0 0 .6rem}
+.moment b{border-radius:999px;padding:.1rem .8rem}
+.m-ind b{background:var(--maize);color:var(--maize-ink)}
+.m-con b{background:var(--indigo-soft);color:var(--indigo)}
+.m-apl b{background:var(--jade-soft);color:var(--jade)}
+.m-casa b{background:var(--rose-soft);color:var(--rose)}
+.moment span{color:var(--muted);font-size:.9rem}
+.step{background:var(--surface);border:2px solid var(--line);border-radius:24px;padding:1.3rem}
+.step h3{font-size:1.45rem;margin-bottom:.4rem}
+.step .hint{color:var(--muted);margin:.2rem 0 1rem}
+.scenario{background:var(--surface2);border-left:6px solid var(--maize);border-radius:12px;padding:.9rem 1rem;margin:.6rem 0 1rem}
+.field{display:block;margin:0 0 1rem}
+.field span{display:block;font-weight:700;margin-bottom:.35rem}
+textarea{width:100%;font:inherit;border:2px solid var(--line);border-radius:14px;padding:.7rem .9rem;background:var(--surface2);color:var(--ink);resize:vertical;min-height:4.5rem}
+.step-nav{display:flex;justify-content:space-between;gap:.6rem;margin-top:1rem;align-items:center}
+.lockmsg{color:var(--muted);font-size:.9rem;text-align:center;flex:1}
+
+/* Tarjetas */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:.8rem}
+.card{border:2px solid var(--line);border-radius:18px;padding:1rem;background:var(--surface2);cursor:pointer;position:relative;min-height:92px}
+.card .ct{font-family:"Baloo 2",sans-serif;font-weight:700;font-size:1.1rem;display:flex;justify-content:space-between;gap:.5rem}
+.card .ct::after{content:"❓";font-size:1rem}
+.card .cd{display:none;margin-top:.5rem;font-size:.98rem}
+.card.open{background:var(--surface);border-color:var(--indigo)}
+.card.open .ct::after{content:"✅"}
+.card.open .cd{display:block}
+.cd dl{margin:0}
+.cd dt{font-weight:800;color:var(--indigo);font-size:.88rem;margin-top:.4rem}
+.cd dd{margin:0}
+.keyidea{background:var(--maize);color:var(--maize-ink);border-radius:16px;padding:1rem;font-weight:700;margin-top:1rem}
+
+/* Juegos */
+.slots{list-style:none;padding:0;margin:0 0 1rem;display:grid;gap:.5rem}
+.slot{display:flex;align-items:center;gap:.6rem;min-height:3rem;border:2px dashed var(--line);border-radius:14px;padding:.35rem .6rem}
+.slot .n{flex:none;width:2rem;height:2rem;border-radius:50%;background:var(--indigo-soft);color:var(--indigo);display:grid;place-items:center;font-weight:800}
+.slot button{flex:1;text-align:left;background:var(--surface2);border:2px solid var(--line);border-radius:10px;padding:.45rem .7rem;font-weight:700}
+.slot.ok{border-style:solid;border-color:var(--jade);background:var(--jade-soft)}
+.slot.ok button{border-color:var(--jade);cursor:default}
+.pool{display:flex;flex-wrap:wrap;gap:.5rem;padding:.8rem;border-radius:16px;background:var(--surface2);min-height:3.4rem}
+.chip{border:2px solid var(--indigo);background:var(--surface);border-radius:999px;padding:.45rem .9rem;font-weight:700}
+.chip:hover{background:var(--indigo-soft)}
+.sortrow{border:2px solid var(--line);border-radius:16px;padding:.7rem .8rem;margin-bottom:.6rem;background:var(--surface2)}
+.sortrow .it{font-weight:800;margin-bottom:.45rem}
+.opts{display:flex;flex-wrap:wrap;gap:.4rem}
+.opt{border:2px solid var(--line);background:var(--surface);border-radius:999px;padding:.3rem .8rem;font-weight:700;font-size:.93rem}
+.opt.sel{background:var(--indigo);border-color:var(--indigo);color:#fff}
+.sortrow.ok{border-color:var(--jade);background:var(--jade-soft)}
+.sortrow.ok .opt.sel{background:var(--jade);border-color:var(--jade)}
+.sortrow.bad{animation:shake .4s;border-color:var(--rose);background:var(--rose-soft)}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.feedback{margin-top:.8rem;font-weight:800;min-height:1.5em}
+.feedback.ok{color:var(--jade)}
+.feedback.bad{color:var(--rose)}
+.check{margin-top:.6rem}
+.tasks{list-style:none;padding:0;margin:0}
+.tasks li{display:flex;gap:.8rem;align-items:flex-start;border:2px solid var(--line);border-radius:16px;padding:.8rem;margin-bottom:.6rem;background:var(--surface2)}
+.tasks input{width:1.5rem;height:1.5rem;flex:none;margin-top:.15rem;accent-color:var(--jade)}
+.table-wrap{overflow-x:auto;margin:.6rem 0}
+table{border-collapse:collapse;width:100%;min-width:480px;font-size:.95rem}
+th,td{border:2px solid var(--line);padding:.5rem .6rem;text-align:left;vertical-align:top}
+th{background:var(--indigo-soft);color:var(--indigo)}
+
+/* Simulacro */
+.qtop{display:flex;justify-content:space-between;align-items:center;gap:.6rem;flex-wrap:wrap;margin-bottom:.8rem}
+.timer{font-weight:800;font-variant-numeric:tabular-nums}
+.timer.late{color:var(--rose)}
+.dots{display:flex;flex-wrap:wrap;gap:.35rem;margin:.8rem 0 1rem}
+.dot{width:2.1rem;height:2.1rem;border-radius:10px;border:2px solid var(--line);background:var(--surface);font-weight:800;font-size:.85rem;padding:0}
+.dot.ans{background:var(--indigo-soft);border-color:var(--indigo);color:var(--indigo)}
+.dot.cur{outline:3px solid var(--maize);outline-offset:1px}
+.qtext{font-size:1.15rem;font-weight:700;margin:0 0 1rem}
+.answers{display:grid;gap:.55rem}
+.ans-btn{display:flex;gap:.7rem;align-items:flex-start;text-align:left;border:2px solid var(--line);background:var(--surface2);border-radius:14px;padding:.7rem .9rem;font-weight:600}
+.ans-btn .l{flex:none;width:1.9rem;height:1.9rem;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:2px solid var(--line);font-weight:800}
+.ans-btn.sel{border-color:var(--indigo);background:var(--indigo-soft)}
+.ans-btn.sel .l{background:var(--indigo);border-color:var(--indigo);color:#fff}
+.score{text-align:center;padding:1rem 0}
+.score .big{font-family:"Baloo 2",sans-serif;font-size:4rem;font-weight:800;line-height:1}
+.score .lvl{display:inline-block;margin-top:.5rem;padding:.2rem 1rem;border-radius:999px;font-weight:800;background:var(--maize);color:var(--maize-ink)}
+.review{list-style:none;padding:0;margin:1rem 0 0}
+.review li{border:2px solid var(--line);border-radius:14px;padding:.7rem .9rem;margin-bottom:.5rem}
+.review li.ok{border-color:var(--jade);background:var(--jade-soft)}
+.review li.bad{border-color:var(--rose);background:var(--rose-soft)}
+.review small{display:block;margin-top:.2rem;font-weight:700}
+.selfeval td:not(:first-child),.selfeval th:not(:first-child){text-align:center;width:5.5rem}
+.selfeval input{width:1.3rem;height:1.3rem;accent-color:var(--indigo)}
+
+/* Diploma */
+.diploma{text-align:center;border:4px double var(--indigo);border-radius:28px;padding:2rem 1.2rem;background:var(--surface);margin-top:1.2rem}
+.diploma h2{font-size:clamp(1.8rem,6vw,2.6rem)}
+.diploma .who{font-family:"Baloo 2",sans-serif;font-size:clamp(1.6rem,6vw,2.3rem);color:var(--indigo);margin:.4rem 0}
+.seals{display:flex;justify-content:center;gap:.6rem;flex-wrap:wrap;margin:1rem 0}
+.seals span{width:62px;height:62px;border-radius:50%;border:3px double var(--rose);display:grid;place-items:center;font-size:1.6rem;transform:rotate(-8deg)}
+.stats{display:flex;justify-content:center;gap:1.5rem;flex-wrap:wrap;font-weight:800}
+details{background:var(--surface);border:2px solid var(--line);border-radius:18px;padding:.8rem 1rem;margin-top:1rem}
+summary{font-weight:800;cursor:pointer}
+.answers-print h4{margin:1rem 0 .3rem;font-family:"Baloo 2",sans-serif;font-size:1.1rem}
+.answers-print p{margin:.1rem 0 .5rem}
+.answers-print .q{font-weight:700;color:var(--muted);font-size:.92rem}
+
+/* Superposiciones */
+.toast{position:fixed;left:50%;bottom:calc(1.2rem + env(safe-area-inset-bottom,0px));transform:translate(-50%,150%);background:var(--maize);color:var(--maize-ink);font-weight:800;padding:.5rem 1.1rem;border-radius:999px;z-index:50;transition:transform .3s}
+.toast.show{transform:translate(-50%,0)}
+.overlay{position:fixed;inset:0;background:rgba(10,15,30,.6);display:grid;place-items:center;z-index:60;padding:1rem}
+.overlay .box{background:var(--surface);border-radius:28px;padding:2rem 1.5rem;text-align:center;max-width:24rem;width:100%}
+.bigseal{width:150px;height:150px;margin:0 auto 1rem;border-radius:50%;border:6px double var(--rose);color:var(--rose);display:grid;place-items:center;font-size:3.4rem;animation:stamp .6s cubic-bezier(.2,1.6,.4,1) both}
+@keyframes stamp{0%{transform:scale(2.4) rotate(-30deg);opacity:0}100%{transform:scale(1) rotate(-10deg);opacity:1}}
+@media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+@media (max-width:560px){
+  .route::before{left:2.75rem}
+  .stop,.stop:nth-child(even){justify-content:flex-start}
+  .stop-btn{width:100%}
+}
+@media print{
+  .hud,.noprint,body::before{display:none!important}
+  body{background:#fff;color:#000}
+  details{border:0}
+  details>*{display:block}
+  .diploma{border-color:#000}
+}
+</style>
+</head>
+<body>
+<header class="hud">
+  <div class="hud-in">
+    <button class="hud-title" data-act="map" title="Volver a la ruta">🧭 Expedición Sociales 6°</button>
+    <span class="pill xp" id="hudXp">⭐ 0</span>
+    <span class="pill" id="hudSeals">🏅 0/5</span>
+  </div>
+</header>
+<main id="app"></main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/* ===================== CONTENIDO DE LA GUÍA ===================== */
+const MOMENTS = {ind:"Indagación", con:"Conceptualización", apl:"Aplicación", casa:"Tarea para la casa"};
+
+const STATIONS = [
+{
+  id:"b1", icon:"🤝", short:"Convivencia",
+  title:"Emociones, derechos y convivencia",
+  when:"Bloque 1, semana 1, sesión 1",
+  goal:"Reconoces tus emociones frente a la injusticia, las gestionas al decidir en grupo y resuelves conflictos con diálogo, honestidad y respeto por la identidad del otro.",
+  steps:[
+    {type:"write", moment:"ind", title:"Lee la situación y responde",
+     text:"En el recreo, a Camila le quitan la merienda todos los días. Andrés lo ve, siente rabia y quiere responder a golpes. Luisa dice que mejor le cuenten a la coordinadora. Sebastián, que le había prometido a Camila acompañarla, inventó una excusa y no fue.",
+     fields:["¿Qué derecho se le está vulnerando a Camila?","¿Qué emoción siente Andrés? ¿Es buena idea actuar guiado solo por ella? ¿Por qué?","¿Qué pasó con la confianza entre Camila y Sebastián? ¿Cómo podría recuperarse?"]},
+    {type:"concepts", moment:"con", title:"Descubre las ideas clave", cards:[
+      {t:"Emociones ante la vulneración de derechos", d:"La indignación, el rechazo, el dolor y la rabia son reacciones normales cuando se irrespeta a alguien. Lo correcto es canalizarlas acudiendo a las autoridades apropiadas: docente, coordinación, orientación escolar, Comité de Convivencia, Comisaría de Familia, ICBF o Personería."},
+      {t:"Gestión de emociones al decidir", d:"Antes de actuar se aplica la pausa: <em>detenerme, respirar, pensar, decidir</em>. Las decisiones colectivas mejoran cuando cada persona separa lo que siente de lo que el grupo necesita."},
+      {t:"Análisis de conflictos", d:"Un conflicto tiene partes, intereses y posiciones. Las alternativas de solución son el diálogo, la negociación, la mediación y la conciliación; la violencia nunca es una alternativa."},
+      {t:"Escucha activa", d:"Escuchar sin interrumpir, repetir con mis palabras lo que dijo el otro y respetar su opinión, aunque no esté de acuerdo."},
+      {t:"Engaño y confianza", d:"Mentir o incumplir rompe la confianza. Se recupera reconociendo el error, pidiendo disculpas, reparando el daño y cumpliendo en adelante."},
+      {t:"Identidad y grupos culturales", d:"La identidad se forma con la familia, la región, la lengua y las costumbres. Colombia es pluriétnica y multicultural (Constitución de 1991, art. 7), por eso reconozco mi identidad y respeto la de los otros."}
+    ]},
+    {type:"order", moment:"apl", title:"Reto: la pausa antes de actuar", hint:"Toca los pasos en el orden correcto.",
+     items:["Detenerme","Respirar","Pensar","Decidir"]},
+    {type:"order", moment:"apl", title:"Reto: termómetro de emociones", hint:"Ordena los cinco niveles, del más tranquilo al más intenso.",
+     items:["Calma","Molestia","Enojo","Rabia","Furia"]},
+    {type:"write", moment:"apl", title:"Mi termómetro de emociones", hint:"Escribe qué haces para bajar un nivel en cada caso.",
+     fields:["Si estoy en molestia, para volver a la calma yo…","Si estoy en enojo, para bajar a molestia yo…","Si estoy en rabia, para bajar a enojo yo…","Si estoy en furia, para bajar a rabia yo…"]},
+    {type:"sort", moment:"apl", title:"Reto: ¿es una alternativa de solución?", hint:"Clasifica cada opción para resolver un conflicto.",
+     cats:["Es una alternativa","Nunca es una alternativa"],
+     items:[{t:"El diálogo",c:0},{t:"La negociación",c:0},{t:"La mediación",c:0},{t:"La conciliación",c:0},{t:"La violencia",c:1}]},
+    {type:"order", moment:"apl", title:"Reto: recuperar la confianza", hint:"¿En qué orden se recupera la confianza después de un engaño?",
+     items:["Reconocer el error","Pedir disculpas","Reparar el daño","Cumplir en adelante"]},
+    {type:"write", moment:"apl", title:"Ruta de atención para el caso de Camila", hint:"Completa el esquema.",
+     fields:["Situación","Emoción","A quién acudo","Qué solicito"]},
+    {type:"write", moment:"apl", title:"Mesa de diálogo", hint:"En grupos de cuatro, un estudiante presenta una postura, otro la repite con sus palabras y el grupo escribe un acuerdo de convivencia de tres puntos.",
+     fields:["Acuerdo 1","Acuerdo 2","Acuerdo 3"]},
+    {type:"write", moment:"casa", title:"Mi identidad", hint:"Escribe tres rasgos de tu identidad costeña y uno de otra cultura colombiana que admires.",
+     fields:["Rasgo costeño 1","Rasgo costeño 2","Rasgo costeño 3","Rasgo de otra cultura colombiana que admiro"]}
+  ]
+},
+{
+  id:"b2", icon:"🌽", short:"América",
+  title:"Primeras civilizaciones americanas y culturas precolombinas de Colombia",
+  when:"Bloque 2, semana 1, sesión 2",
+  goal:"Relacionas el territorio y el clima de cada cultura con su forma de producir, organizarse y gobernarse.",
+  steps:[
+    {type:"write", moment:"ind", title:"Tu hipótesis",
+     text:"¿Por qué crees que los incas cultivaban en terrazas en las montañas y los aztecas construían chinampas sobre un lago?",
+     fields:["Escribe una hipótesis de dos renglones"]},
+    {type:"concepts", moment:"con", title:"Mayas, aztecas e incas", cards:[
+      {t:"Mayas", d:"<dl><dt>Ubicación</dt><dd>Península de Yucatán, sur de México y Centroamérica</dd><dt>Clima y relieve</dt><dd>Selva tropical, cálido y húmedo</dd><dt>Organización política</dt><dd>Ciudades-Estado independientes</dd><dt>Economía</dt><dd>Maíz con roza y quema, comercio</dd><dt>Legado</dt><dd>Calendario, escritura jeroglífica, concepto del cero</dd></dl>"},
+      {t:"Aztecas", d:"<dl><dt>Ubicación</dt><dd>Valle de México (capital: Tenochtitlan)</dd><dt>Clima y relieve</dt><dd>Altiplano con lagos, templado</dd><dt>Organización política</dt><dd>Imperio con un emperador (tlatoani) y pueblos tributarios</dd><dt>Economía</dt><dd>Chinampas, tributo y mercado</dd><dt>Legado</dt><dd>Tenochtitlan, códices, medicina herbal</dd></dl>"},
+      {t:"Incas", d:"<dl><dt>Ubicación</dt><dd>Cordillera de los Andes (capital: Cusco)</dd><dt>Clima y relieve</dt><dd>Montaña con pisos térmicos, frío en las alturas</dd><dt>Organización política</dt><dd>Imperio centralizado dirigido por el Inca</dd><dt>Economía</dt><dd>Terrazas de cultivo, mita (trabajo por turnos) y ayllu</dd><dt>Legado</dt><dd>Caminos (Qhapaq Ñan), quipus, ingeniería</dd></dl>"}
+    ]},
+    {type:"sort", moment:"apl", title:"Reto: ¿de qué civilización es?", hint:"Clasifica cada rasgo en su civilización.",
+     cats:["Mayas","Aztecas","Incas"],
+     items:[{t:"Maíz con roza y quema",c:0},{t:"Chinampas sobre un lago",c:1},{t:"Terrazas de cultivo y mita",c:2},{t:"Ciudades-Estado independientes",c:0},{t:"Emperador (tlatoani) y pueblos tributarios",c:1},{t:"Imperio centralizado dirigido por el Inca",c:2},{t:"Calendario y concepto del cero",c:0},{t:"Códices y medicina herbal",c:1},{t:"Qhapaq Ñan y quipus",c:2}]},
+    {type:"concepts", moment:"con", title:"Culturas precolombinas de Colombia", cards:[
+      {t:"Muiscas", d:"<dl><dt>Región</dt><dd>Altiplano cundiboyacense</dd><dt>Relieve y clima</dt><dd>Montaña, clima frío</dd><dt>Rasgos</dt><dd>Agricultura de papa y maíz, sal, orfebrería (balsa muisca)</dd></dl>"},
+      {t:"Taironas", d:"<dl><dt>Región</dt><dd>Sierra Nevada de Santa Marta</dd><dt>Relieve y clima</dt><dd>Montaña junto al mar, varios pisos térmicos</dd><dt>Rasgos</dt><dd>Terrazas, caminos de piedra, Ciudad Perdida</dd></dl>"},
+      {t:"Zenúes", d:"<dl><dt>Región</dt><dd>Llanuras del Caribe (Córdoba, Sucre)</dd><dt>Relieve y clima</dt><dd>Sabanas inundables, clima cálido</dd><dt>Rasgos</dt><dd>Canales para controlar inundaciones, orfebrería, tejido de caña flecha</dd></dl>"},
+      {t:"San Agustín", d:"<dl><dt>Región</dt><dd>Alto Magdalena (Huila)</dd><dt>Relieve y clima</dt><dd>Montaña, clima templado</dd><dt>Rasgos</dt><dd>Estatuaria en piedra y tumbas</dd></dl>"},
+      {t:"Tierradentro", d:"<dl><dt>Región</dt><dd>Cauca</dd><dt>Relieve y clima</dt><dd>Montaña</dd><dt>Rasgos</dt><dd>Hipogeos (tumbas subterráneas) pintados</dd></dl>"}
+    ], key:"<strong>Idea clave:</strong> el espacio geográfico condiciona la producción, pero cada cultura lo transforma con su tecnología (terrazas, chinampas, canales)."},
+    {type:"sort", moment:"apl", title:"Reto: une cada cultura con su huella", hint:"Elige la cultura colombiana que corresponde a cada rasgo.",
+     cats:["Muiscas","Taironas","Zenúes","San Agustín","Tierradentro"],
+     items:[{t:"Sal y balsa muisca de oro",c:0},{t:"Ciudad Perdida y caminos de piedra",c:1},{t:"Canales para controlar inundaciones",c:2},{t:"Estatuaria en piedra",c:3},{t:"Hipogeos pintados",c:4},{t:"Tejido de caña flecha",c:2},{t:"Altiplano cundiboyacense, clima frío",c:0},{t:"Montaña junto al mar con varios pisos térmicos",c:1}]},
+    {type:"write", moment:"apl", title:"Completa las oraciones", fields:["Los zenúes construyeron canales porque…","Los taironas construyeron terrazas porque…"]},
+    {type:"write", moment:"apl", title:"Revisa tu hipótesis inicial", hint:"¿Fue correcta? Corrígela con lo aprendido.", showPrev:"b2-0-0", fields:["Mi hipótesis corregida"]},
+    {type:"home", moment:"casa", title:"Misiones para la casa", tasks:[
+      "En un mapa de América, ubica y colorea el territorio maya, azteca e inca; agrega una convención para el clima de cada uno.",
+      "En un mapa de Colombia, ubica las cinco culturas y escribe el piso térmico donde vivían."]}
+  ]
+},
+{
+  id:"b3", icon:"🏛️", short:"Grecia",
+  title:"Europa y el mundo griego",
+  when:"Bloque 3, semanas 1 y 2, sesión 3",
+  goal:"Explicas cómo la geografía de Grecia dio origen a las polis y a la democracia ateniense, y comparas esa democracia con la actual.",
+  steps:[
+    {type:"write", moment:"ind", title:"Observa un mapa físico de Europa",
+     fields:["¿Qué ventajas tenía vivir en una península rodeada de mar y con muchas islas?","¿Qué dificultades traían las montañas?"]},
+    {type:"concepts", moment:"con", title:"Descubre las ideas clave", cards:[
+      {t:"Europa y su geografía", d:"Continente con penínsulas (Ibérica, Itálica, Balcánica, Escandinava), cordilleras (Alpes, Pirineos, Cárpatos), grandes ríos (Danubio, Rin, Volga) y mares (Mediterráneo, Báltico, del Norte). El Mediterráneo facilitó el comercio y el contacto entre pueblos."},
+      {t:"Orígenes del pueblo griego", d:"Grecia ocupa la península Balcánica, montañosa y con poca tierra fértil. Las montañas aislaron a las comunidades y el mar las volvió navegantes y comerciantes. Los antecedentes son la cultura minoica (Creta) y la micénica."},
+      {t:"La polis", d:"Ciudad-Estado independiente con su propio gobierno, leyes y ejército. Tenía una parte alta (acrópolis) y una plaza pública (ágora). Las más conocidas fueron Atenas y Esparta."},
+      {t:"Expansión colonizadora", d:"Por la falta de tierras y el crecimiento de la población, los griegos fundaron colonias en el Mediterráneo y el mar Negro, y difundieron su cultura."}
+    ]},
+    {type:"sort", moment:"apl", title:"Reto: geografía de Europa", hint:"Clasifica cada lugar.",
+     cats:["Península","Cordillera","Río","Mar"],
+     items:[{t:"Ibérica",c:0},{t:"Alpes",c:1},{t:"Danubio",c:2},{t:"Mediterráneo",c:3},{t:"Itálica",c:0},{t:"Pirineos",c:1},{t:"Rin",c:2},{t:"Báltico",c:3},{t:"Balcánica",c:0},{t:"Cárpatos",c:1},{t:"Volga",c:2},{t:"Del Norte",c:3},{t:"Escandinava",c:0}]},
+    {type:"concepts", moment:"con", title:"Periodos de la cultura griega antigua", cards:[
+      {t:"Prehelénico", d:"3000–1100 a. C. Culturas minoica y micénica."},
+      {t:"Oscuro u homérico", d:"1100–800 a. C. Aldeas rurales; poemas de Homero."},
+      {t:"Arcaico", d:"800–500 a. C. Nacen las polis y la colonización."},
+      {t:"Clásico", d:"500–338 a. C. Democracia ateniense, Guerras Médicas y del Peloponeso."},
+      {t:"Helenístico", d:"338–146 a. C. Imperio de Alejandro Magno; mezcla de culturas."}
+    ]},
+    {type:"order", moment:"apl", title:"Reto: línea de tiempo griega", hint:"Ordena los periodos del más antiguo al más reciente.",
+     items:["Prehelénico: culturas minoica y micénica","Oscuro u homérico: aldeas rurales y poemas de Homero","Arcaico: nacen las polis y la colonización","Clásico: democracia ateniense y Guerras Médicas","Helenístico: Imperio de Alejandro Magno"]},
+    {type:"sort", moment:"apl", title:"Reto: ¿Atenas o Esparta?", hint:"Clasifica cada característica.",
+     cats:["Atenas","Esparta"],
+     items:[{t:"Democracia (Asamblea de ciudadanos)",c:0},{t:"Oligarquía militar con dos reyes",c:1},{t:"Educación en filosofía, artes y oratoria",c:0},{t:"Formación militar desde los 7 años",c:1},{t:"Comercio marítimo y artesanía",c:0},{t:"Agricultura con trabajo de ilotas",c:1},{t:"Papel de la mujer limitado al hogar",c:0},{t:"La mujer tenía mayor libertad y administraba bienes",c:1}]},
+    {type:"sort", moment:"apl", title:"Reto: formas de la democracia en la historia", hint:"¿Este rasgo es de la democracia ateniense o de la colombiana actual?",
+     cats:["Democracia ateniense","Democracia colombiana actual"],
+     items:[{t:"Directa: los ciudadanos votaban en la Asamblea",c:0},{t:"Representativa y participativa: elegimos representantes",c:1},{t:"Solo participaban hombres libres, hijos de atenienses",c:0},{t:"Participan todos los ciudadanos mayores de 18 años",c:1},{t:"Excluía a mujeres, esclavos y extranjeros (metecos)",c:0},{t:"Nadie es excluido por sexo, raza o condición social",c:1},{t:"Mecanismos como el voto, la consulta y el referendo",c:1}]},
+    {type:"write", moment:"apl", title:"Escribe un párrafo", fields:["¿Era la democracia ateniense una democracia para todos? Argumenta."]},
+    {type:"write", moment:"apl", title:"Cuadro de legados griegos", hint:"Di cómo se ve hoy cada legado.",
+     fields:["Filosofía","Teatro","Juegos Olímpicos","Arquitectura","Democracia"]},
+    {type:"home", moment:"casa", title:"Misiones para la casa", tasks:[
+      "En un mapa de Europa, señala las cuatro penínsulas, tres cordilleras y tres ríos principales.",
+      "Construye una línea de tiempo con los cinco periodos griegos y un hecho por periodo."]}
+  ]
+},
+{
+  id:"b4", icon:"⚖️", short:"Roma",
+  title:"Roma, derechos y protección a personas vulnerables",
+  when:"Bloque 4, semana 2, sesión 4",
+  goal:"Explicas el paso de Roma de república a imperio, identificas los conflictos sociales que lo provocaron y relacionas el legado romano con los derechos que hoy protegen a las familias y a las personas vulnerables.",
+  steps:[
+    {type:"write", moment:"ind", title:"Herencias de Roma",
+     text:"Muchas palabras del español vienen del latín, la lengua de Roma. ¿Qué otras cosas de nuestra vida diaria crees que heredamos de los romanos?",
+     fields:["Herencia 1","Herencia 2","Herencia 3"]},
+    {type:"concepts", moment:"con", title:"Etapas de Roma", cards:[
+      {t:"Monarquía", d:"<dl><dt>Años aproximados</dt><dd>753–509 a. C.</dd><dt>Gobierno</dt><dd>Reyes</dd><dt>Hechos clave</dt><dd>Fundación de Roma</dd></dl>"},
+      {t:"República", d:"<dl><dt>Años aproximados</dt><dd>509–27 a. C.</dd><dt>Gobierno</dt><dd>Dos cónsules y el Senado</dd><dt>Hechos clave</dt><dd>Conquista de Italia, Guerras Púnicas contra Cartago, expansión por el Mediterráneo</dd></dl>"},
+      {t:"Crisis de la República", d:"<dl><dt>Años aproximados</dt><dd>Siglos II–I a. C.</dd><dt>Gobierno</dt><dd>Luchas por el poder</dd><dt>Hechos clave</dt><dd>Conflictos entre patricios y plebeyos, guerras civiles, dictadura de Julio César</dd></dl>"},
+      {t:"Imperio", d:"<dl><dt>Años aproximados</dt><dd>27 a. C.–476 d. C.</dd><dt>Gobierno</dt><dd>Emperador (Augusto el primero)</dd><dt>Hechos clave</dt><dd><em>Pax romana</em>, gran extensión territorial, caída de Occidente en 476</dd></dl>"}
+    ]},
+    {type:"concepts", moment:"con", title:"Conflictos, legado y derechos", cards:[
+      {t:"Conflictos en la organización social", d:"Los patricios tenían tierras y poder; los plebeyos reclamaban derechos; los esclavos, traídos de las conquistas, hacían el trabajo pesado. La tenencia desigual de la tierra y el uso de mano de obra esclava generaron rebeliones como la de Espartaco. Esta misma situación se ve en otras épocas: en Egipto con la mano de obra en las construcciones y en el Medioevo con los siervos que trabajaban la tierra del señor feudal."},
+      {t:"Legado cultural romano", d:"El derecho romano (base de nuestras leyes), el latín (origen del español), la arquitectura (arcos, acueductos, carreteras, anfiteatros), el calendario y la organización de ciudades."},
+      {t:"Derechos de primera generación", d:"Civiles y políticos: vida, libertad, igualdad, participación y voto."},
+      {t:"Derechos de segunda generación", d:"Económicos, sociales y culturales: trabajo, salud, vivienda, propiedad, educación y recreación. En Colombia están en la Constitución de 1991 y todas las familias tienen derecho a ellos."},
+      {t:"Protección a personas vulnerables", d:"Niños, adultos mayores, personas con discapacidad, víctimas del conflicto y comunidades étnicas tienen protección especial del Estado (artículo 13 de la Constitución)."},
+      {t:"Toma de decisiones con independencia", d:"Defender o incluir a un compañero excluido es correcto aunque el grupo me critique. Actuar por convicción, no por presión, es parte de ser un buen ciudadano."}
+    ]},
+    {type:"order", moment:"apl", title:"Reto: línea de tiempo de Roma", hint:"Ordena las etapas de la más antigua a la más reciente.",
+     items:["Monarquía: reyes y fundación de Roma","República: dos cónsules, Senado y Guerras Púnicas","Crisis de la República: guerras civiles y Julio César","Imperio: Augusto y la pax romana"]},
+    {type:"sort", moment:"apl", title:"Reto: clasifica los derechos", hint:"¿Primera o segunda generación?",
+     cats:["Primera generación","Segunda generación"],
+     items:[{t:"Votar",c:0},{t:"Ir al colegio",c:1},{t:"Expresar mi opinión",c:0},{t:"Tener una casa digna",c:1},{t:"Recibir atención médica",c:1},{t:"No ser torturado",c:0}]},
+    {type:"write", moment:"apl", title:"Dilema",
+     text:"En tu salón excluyen a un compañero nuevo de Venezuela. Si lo invitas a tu grupo, algunos se burlarán de ti.",
+     fields:["¿Qué haces y por qué?","¿Qué derecho se protege con tu decisión?"]},
+    {type:"write", moment:"apl", title:"Compara", fields:["¿En qué se parecen los plebeyos romanos y los siervos medievales en su lucha por la tierra?"]},
+    {type:"home", moment:"casa", title:"Misión para la casa", tasks:[
+      "Elabora una línea de tiempo de Roma con las cuatro etapas y un hecho por cada una."]}
+  ]
+}
+];
+
+const QUIZ = [
+ {q:"Unos vecinos ven que un comerciante maltrata a un niño que trabaja para él y sienten indignación. La acción más adecuada es:", o:["Enfrentar al comerciante con golpes.","No meterse, porque no es su problema.","Informar al ICBF o a la Comisaría de Familia.","Grabar un video y burlarse del comerciante."], a:2},
+ {q:"Pedro no está de acuerdo con lo que dice Ana en una discusión de grupo. Demuestra escucha activa cuando:", o:["La interrumpe para dar su opinión.","Cambia de tema.","Se retira del grupo.","Repite con sus palabras la idea de Ana antes de dar la suya."], a:3},
+ {q:"Luis dijo que había perdido el libro de su amigo, pero lo tenía guardado. Para recuperar la confianza, lo mejor es:", o:["Inventar otra excusa.","Reconocer la mentira, pedir disculpas y devolver el libro.","Evitar a su amigo.","Regalarle dulces sin explicar nada."], a:1},
+ {q:"Marta vota por su mejor amiga para representante del curso, aunque sabe que otro candidato tiene mejores propuestas. Esto muestra que:", o:["Tomó una decisión basada en razones.","Sus emociones influyeron en una decisión colectiva.","Votó en blanco.","No participó en la elección."], a:1},
+ {q:"Los incas cultivaban en terrazas porque su territorio era:", o:["Plano y desértico.","Una isla rodeada de mar.","Selvático y lluvioso.","Montañoso y debían aprovechar las pendientes."], a:3},
+ {q:"La construcción de chinampas sobre un lago fue una técnica agrícola de los:", o:["Mayas.","Incas.","Aztecas.","Muiscas."], a:2},
+ {q:"Los mayas no tuvieron un gobierno único porque se organizaron en:", o:["Ciudades-Estado independientes.","Un imperio centralizado.","Feudos gobernados por señores.","Una república con Senado."], a:0},
+ {q:"Los zenúes construyeron canales en las sabanas de Córdoba y Sucre para:", o:["Controlar las inundaciones y cultivar.","Defenderse de invasores.","Navegar hacia el mar.","Extraer oro."], a:0},
+ {q:"Una cultura del altiplano cundiboyacense, de clima frío, que explotó la sal y elaboró la balsa de oro fue la:", o:["Tairona.","Zenú.","Muisca.","San Agustín."], a:2},
+ {q:"Los taironas vivían en la Sierra Nevada de Santa Marta. Esta ubicación les permitía:", o:["Cultivar un solo producto todo el año.","Evitar el contacto con otros pueblos.","Vivir solo de la pesca en ríos.","Aprovechar varios pisos térmicos y productos del mar."], a:3},
+ {q:"La geografía montañosa de Grecia provocó que:", o:["Existiera un solo rey para todo el territorio.","Los griegos no conocieran el mar.","Se formaran polis independientes entre sí.","Todas las ciudades tuvieran el mismo gobierno."], a:2},
+ {q:"Las polis y la colonización griega surgieron en el periodo:", o:["Prehelénico.","Arcaico.","Clásico.","Helenístico."], a:1},
+ {q:"Una diferencia entre Atenas y Esparta es que en Esparta:", o:["La educación era militar desde la infancia.","Se practicaba la democracia directa.","Se dedicaban solo al comercio marítimo.","Las mujeres no tenían ninguna libertad."], a:0},
+ {q:"Los griegos fundaron colonias en el Mediterráneo principalmente por:", o:["La falta de tierras fértiles y el aumento de la población.","Las órdenes del Imperio romano.","La búsqueda de oro en América.","Las inundaciones del río Nilo."], a:0},
+ {q:"Si se compara la democracia ateniense con la colombiana actual, se concluye que en Atenas:", o:["Votaban todas las personas mayores de 18 años.","Las mujeres, los esclavos y los extranjeros no participaban.","Se elegían representantes al Congreso.","Existía el referendo."], a:1},
+ {q:"Roma pasó de república a imperio después de:", o:["La fundación de Roma por Rómulo.","La caída de Constantinopla.","La llegada de los griegos a Italia.","Una crisis con guerras civiles y luchas por el poder."], a:3},
+ {q:"La lucha de los plebeyos romanos por la tierra se parece a la situación de los siervos medievales porque ambos:", o:["Eran dueños de grandes extensiones de tierra.","Gobernaban sus ciudades.","Trabajaban tierras que pertenecían a otros.","Eran sacerdotes."], a:2},
+ {q:"Un legado romano presente en Colombia es:", o:["La democracia directa.","El derecho como base de las leyes y el idioma español derivado del latín.","Las pirámides escalonadas.","Los quipus."], a:1},
+ {q:"Una familia vive en una casa sin servicios básicos. Se le está vulnerando un derecho de:", o:["Primera generación: al voto.","Tercera generación: al ambiente sano.","Primera generación: a la libre expresión.","Segunda generación: a la vivienda digna."], a:3},
+ {q:"En el salón excluyen a un compañero nuevo. Sofía lo invita a su grupo aunque otros se burlan de ella. Sofía actúa con:", o:["Independencia frente a la presión del grupo.","Miedo a quedar sola.","Deseo de ser popular.","Indiferencia."], a:0}
+];
+
+const SELF = ["Gestiono mis emociones antes de decidir en grupo","Ubico en el mapa las culturas americanas y colombianas estudiadas","Explico cómo funcionaba la democracia en Atenas y la comparo con la actual","Diferencio la República y el Imperio romano","Distingo derechos de primera y segunda generación"];
+const LEVELS = [
+ {min:4.6, n:"Superior", d:"Relaciona espacio, época y organización de las culturas y resuelve dilemas ciudadanos con argumentos."},
+ {min:4.0, n:"Alto", d:"Comprende la mayoría de los conceptos y los aplica en situaciones nuevas con pocos errores."},
+ {min:3.0, n:"Básico", d:"Identifica conceptos básicos pero se le dificulta compararlos o aplicarlos."},
+ {min:-1, n:"Bajo", d:"No alcanza los desempeños; requiere plan de mejoramiento."}
+];
+const RANKS = [[0,"Aprendiz de explorador"],[150,"Explorador de culturas"],[400,"Cronista del tiempo"],[700,"Guardián de la historia"]];
+const LETTERS = ["A","B","C","D"];
+
+/* ===================== ESTADO ===================== */
+const KEY = "expedicion-sociales-6";
+function fresh(){return {name:"",xp:0,done:{},step:{},writes:{},credited:{},games:{},home:{},quiz:{ans:Array(20).fill(null),cur:0,done:false,started:null},self:{},view:"map",cur:0};}
+let state = fresh();
+try{const s=JSON.parse(localStorage.getItem(KEY)); if(s&&s.quiz) state=Object.assign(fresh(),s);}catch(e){}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(state));}catch(e){}}
+
+const $ = s => document.querySelector(s);
+const app = $("#app");
+const esc = s => String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const shuffle = a => {a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;};
+const sealsCount = () => STATIONS.filter(s=>state.done[s.id]).length + (state.quiz.done?1:0);
+const rank = () => {let r=RANKS[0][1];for(const [m,n] of RANKS) if(state.xp>=m) r=n;return r;};
+
+let toastTimer;
+function toast(msg){const t=$("#toast");t.textContent=msg;t.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove("show"),1600);}
+function credit(key,amount,quiet){
+  if(state.credited[key]) return false;
+  state.credited[key]=true; state.xp+=amount; save(); hud();
+  if(!quiet) toast(`+${amount} ⭐`);
+  return true;
+}
+function hud(){ $("#hudXp").textContent=`⭐ ${state.xp}`; $("#hudSeals").textContent=`🏅 ${sealsCount()}/5`; }
+function go(view){ state.view=view; save(); render(); window.scrollTo({top:0}); }
+
+document.addEventListener("click",e=>{
+  const b=e.target.closest("[data-act]"); if(!b) return;
+  const a=b.dataset.act;
+  if(a==="map") go("map");
+});
+
+/* ===================== RUTA ===================== */
+function renderMap(){
+  const unlocked = i => i===0 || state.done[STATIONS[i-1].id];
+  const allDone = STATIONS.every(s=>state.done[s.id]);
+  let stops = STATIONS.map((s,i)=>{
+    const done=state.done[s.id], open=unlocked(i);
+    const stp=state.step[s.id]||0;
+    const st = done?"Estación completada": !open?"🔒 Completa la estación anterior": stp>0?`En curso: paso ${stp+1} de ${s.steps.length}`:"Lista para empezar";
+    return `<li class="stop ${done?"done":""}"><button class="stop-btn" data-st="${i}" ${open?"":"disabled"}>
+      <span class="stop-num">${s.icon}</span>
+      <span class="s">Estación ${i+1}</span><span class="t">${s.short}</span><span class="state">${st}</span>
+      ${done?`<span class="seal">SELLO<br>${i+1}</span>`:""}</button></li>`;
+  }).join("");
+  stops += `<li class="stop final ${state.quiz.done?"done":""}"><button class="stop-btn" data-quiz ${allDone?"":"disabled"}>
+      <span class="stop-num">🏆</span><span class="s">Estación 5</span><span class="t">Simulacro final</span>
+      <span class="state">${state.quiz.done?"Simulacro entregado": allDone?"20 preguntas tipo prueba externa":"🔒 Consigue los 4 sellos"}</span>
+      ${state.quiz.done?`<span class="seal">SELLO<br>5</span>`:""}</button></li>`;
+
+  app.innerHTML = `
+  <section class="hero">
+    <h1>Expedición Sociales <span class="grade">6°</span></h1>
+    <p>Viaja por cuatro estaciones de Ciencias Sociales y Competencias Ciudadanas, gana estrellas en cada reto y consigue los sellos para llegar al simulacro final.</p>
+    ${state.name?`<p class="greet">¡Hola, ${esc(state.name)}! <br><span class="rank">${rank()}</span></p>`:
+    `<div class="namebox"><label for="nm">Escribe tu nombre para comenzar</label><input id="nm" autocomplete="name" placeholder="Nombre y apellido"><div class="row"><button class="btn go" id="nmGo">Empezar la expedición</button></div></div>`}
+  </section>
+  <ol class="route">${stops}</ol>
+  ${state.quiz.done?`<p style="text-align:center"><button class="btn primary" id="toFinal">Ver mi diploma</button></p>`:""}
+  <p class="foot">IED Marco Fidel Suárez, Barranquilla. Docente: Grace De La Rans.<br><button class="linkbtn noprint" id="reset">Reiniciar mi progreso</button></p>`;
+
+  const nmGo=$("#nmGo");
+  if(nmGo){ const f=()=>{const v=$("#nm").value.trim(); if(!v){$("#nm").focus();return;} state.name=v; save(); renderMap();};
+    nmGo.onclick=f; $("#nm").onkeydown=e=>{if(e.key==="Enter")f();}; }
+  app.querySelectorAll("[data-st]").forEach(b=>b.onclick=()=>{
+    if(!state.name){toast("Primero escribe tu nombre");$("#nm")&&$("#nm").focus();return;}
+    state.cur=+b.dataset.st; go("station");});
+  const qb=app.querySelector("[data-quiz]"); if(qb) qb.onclick=()=>{ if(!state.quiz.started) state.quiz.started=Date.now(); go(state.quiz.done?"result":"quiz"); };
+  const tf=$("#toFinal"); if(tf) tf.onclick=()=>go("final");
+  $("#reset").onclick=()=>{ if(confirm("¿Seguro? Se borrarán tus estrellas, sellos y respuestas.")){ state=fresh(); save(); hud(); renderMap(); } };
+}
+
+/* ===================== ESTACIÓN ===================== */
+function renderStation(){
+  const st=STATIONS[state.cur]; const n=st.steps.length;
+  let i=state.step[st.id]||0; if(i>=n) i=n-1;
+  const step=st.steps[i];
+  app.innerHTML = `
+  <section>
+    <button class="back" data-act="map">Volver a la ruta</button>
+    <header class="st-head"><span class="st-icon" aria-hidden="true">${st.icon}</span>
+      <div><p class="st-meta">${st.when}</p><h2>${st.title}</h2><p class="st-goal">${st.goal}</p></div></header>
+    <div class="progress" aria-hidden="true"><div style="width:${(i/n)*100}%"></div></div>
+    <p class="moment m-${step.moment}"><b>${MOMENTS[step.moment]}</b><span>Paso ${i+1} de ${n}</span></p>
+    <article class="step" id="step"></article>
+    <nav class="step-nav">
+      <button class="btn" id="prev" ${i===0?"disabled":""}>Anterior</button>
+      <span class="lockmsg" id="lockmsg"></span>
+      <button class="btn primary" id="next">${i===n-1?"Terminar estación":"Siguiente"}</button>
+    </nav>
+  </section>`;
+  const key=`${st.id}-${i}`;
+  const el=$("#step");
+  ({write:renderWrite,concepts:renderConcepts,order:renderOrder,sort:renderSort,home:renderHome})[step.type](el,step,key);
+  updateNext();
+  $("#prev").onclick=()=>{state.step[st.id]=i-1;save();renderStation();window.scrollTo({top:0});};
+  $("#next").onclick=()=>{
+    if(i<n-1){state.step[st.id]=i+1;save();renderStation();window.scrollTo({top:0});}
+    else finishStation(st);
+  };
+}
+function currentStepKey(){const st=STATIONS[state.cur];const i=state.step[st.id]||0;return {step:st.steps[i],key:`${st.id}-${i}`};}
+function updateNext(){
+  const {step,key}=currentStepKey(); const nx=$("#next"); if(!nx) return;
+  const locked=(step.type==="order"||step.type==="sort") && !state.games[key];
+  nx.disabled=locked; $("#lockmsg").textContent=locked?"Resuelve el reto para seguir":"";
+}
+function finishStation(st){
+  const first=!state.done[st.id];
+  state.done[st.id]=true; save();
+  if(first) credit(`seal-${st.id}`,50,true);
+  hud();
+  const ov=document.createElement("div"); ov.className="overlay";
+  ov.innerHTML=`<div class="box" role="dialog" aria-modal="true"><div class="bigseal">${st.icon}</div>
+    <h2>${first?"¡Sello conseguido!":"Estación repasada"}</h2>
+    <p>${first?`Completaste la estación ${st.short} y ganaste 50 ⭐ extra.`:"Ya tenías este sello. ¡Buen repaso!"}</p>
+    <button class="btn go" id="ovGo">Seguir la ruta</button></div>`;
+  document.body.appendChild(ov); $("#ovGo").focus();
+  $("#ovGo").onclick=()=>{ov.remove();go("map");};
+}
+
+function renderWrite(el,step,key){
+  let html=`<h3>${step.title}</h3>`;
+  if(step.hint) html+=`<p class="hint">${step.hint}</p>`;
+  if(step.text) html+=`<div class="scenario">${step.text}</div>`;
+  if(step.showPrev && state.writes[step.showPrev]) html+=`<div class="scenario"><strong>Tu hipótesis inicial:</strong> ${esc(state.writes[step.showPrev])}</div>`;
+  html+=step.fields.map((f,k)=>`<label class="field"><span>${f}</span><textarea data-k="${key}-${k}" rows="3" placeholder="Escribe aquí tu respuesta">${esc(state.writes[`${key}-${k}`]||"")}</textarea></label>`).join("");
+  html+=`<p class="hint">Cada respuesta completa te da 5 ⭐.</p>`;
+  el.innerHTML=html;
+  el.querySelectorAll("textarea").forEach(t=>t.addEventListener("input",()=>{
+    state.writes[t.dataset.k]=t.value; save();
+    if(t.value.trim().length>=10) credit("w:"+t.dataset.k,5);
+  }));
+}
+function renderConcepts(el,step,key){
+  el.innerHTML=`<h3>${step.title}</h3><p class="hint">Toca cada tarjeta para descubrirla. Cada una vale 2 ⭐.</p>
+  <div class="cards">${step.cards.map((c,k)=>`<div class="card ${state.credited[`c:${key}-${k}`]?"open":""}" role="button" tabindex="0" aria-expanded="${!!state.credited[`c:${key}-${k}`]}" data-k="${k}"><div class="ct">${c.t}</div><div class="cd">${c.d}</div></div>`).join("")}</div>
+  ${step.key?`<div class="keyidea">${step.key}</div>`:""}`;
+  el.querySelectorAll(".card").forEach(c=>{
+    const f=()=>{c.classList.toggle("open");c.setAttribute("aria-expanded",c.classList.contains("open"));credit(`c:${key}-${c.dataset.k}`,2);};
+    c.onclick=f; c.onkeydown=e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();f();}};
+  });
+}
+function renderHome(el,step,key){
+  el.innerHTML=`<h3>${step.title}</h3><p class="hint">Hazlas en tu cuaderno y marca cada una cuando la termines. Cada misión vale 5 ⭐.</p>
+  <ul class="tasks">${step.tasks.map((t,k)=>`<li><input type="checkbox" id="h${k}" data-k="${key}-${k}" ${state.home[`${key}-${k}`]?"checked":""}><label for="h${k}">${t}</label></li>`).join("")}</ul>`;
+  el.querySelectorAll("input").forEach(c=>c.onchange=()=>{state.home[c.dataset.k]=c.checked;save();if(c.checked)credit("h:"+c.dataset.k,5);});
+}
+function gameWon(key,fb){
+  state.games[key]=true; save();
+  const c=document.getElementById("chk"); if(c) c.style.display="none";
+  credit(`g:${key}:done`,10,true);
+  fb.className="feedback ok"; fb.textContent="¡Reto superado! Ganaste 10 ⭐ de bonificación.";
+  updateNext();
+}
+function renderOrder(el,step,key){
+  const n=step.items.length; const solved=!!state.games[key];
+  let slots=solved?step.items.map((_,k)=>k):Array(n).fill(null);
+  let locked=Array(n).fill(solved);
+  const poolOrder=shuffle(step.items.map((_,k)=>k));
+  let attempts=0;
+  el.innerHTML=`<h3>${step.title}</h3><p class="hint">${step.hint} Si te equivocas, toca un paso ubicado para devolverlo.</p>
+  <ol class="slots" id="slots"></ol><div class="pool" id="pool" aria-label="Opciones"></div>
+  <button class="btn go check" id="chk">Comprobar</button><p class="feedback" id="fb" aria-live="polite"></p>`;
+  const fb=$("#fb");
+  function draw(){
+    $("#slots").innerHTML=slots.map((k,p)=>`<li class="slot ${locked[p]?"ok":""}"><span class="n">${p+1}</span>${k===null?`<span style="color:var(--muted)">Vacío</span>`:`<button data-p="${p}" ${locked[p]?"disabled":""}>${step.items[k]}</button>`}</li>`).join("");
+    const left=poolOrder.filter(k=>!slots.includes(k));
+    $("#pool").innerHTML=left.length?left.map(k=>`<button class="chip" data-k="${k}">${step.items[k]}</button>`).join(""):`<span style="color:var(--muted)">Ya ubicaste todo.</span>`;
+    $("#chk").style.display=state.games[key]?"none":"";
+    $("#chk").disabled=slots.includes(null);
+    $("#slots").querySelectorAll("button[data-p]").forEach(b=>b.onclick=()=>{slots[+b.dataset.p]=null;draw();});
+    $("#pool").querySelectorAll("button[data-k]").forEach(b=>b.onclick=()=>{const e=slots.indexOf(null);if(e>-1){slots[e]=+b.dataset.k;draw();}});
+  }
+  $("#chk").onclick=()=>{
+    attempts++; let good=0;
+    slots.forEach((k,p)=>{ if(k===p){ if(!locked[p]) credit(`g:${key}:${p}`,attempts===1?5:2,true); locked[p]=true; good++; } else slots[p]=null; });
+    draw();
+    if(good===n) gameWon(key,fb);
+    else { fb.className="feedback bad"; fb.textContent=`Tienes ${good} de ${n} en su lugar. Las que no encajaban volvieron abajo.`; }
+    hud();
+  };
+  draw();
+  if(solved){fb.className="feedback ok";fb.textContent="Reto superado.";}
+}
+function renderSort(el,step,key){
+  const solved=!!state.games[key];
+  const order=shuffle(step.items.map((_,k)=>k));
+  const sel={}, locked={}; let attempts=0;
+  if(solved) step.items.forEach((it,k)=>{sel[k]=it.c;locked[k]=true;});
+  el.innerHTML=`<h3>${step.title}</h3><p class="hint">${step.hint}</p><div id="rows"></div>
+  <button class="btn go check" id="chk">Comprobar</button><p class="feedback" id="fb" aria-live="polite"></p>`;
+  const fb=$("#fb");
+  function draw(bad=[]){
+    $("#rows").innerHTML=order.map(k=>`<div class="sortrow ${locked[k]?"ok":""} ${bad.includes(k)?"bad":""}"><div class="it">${step.items[k].t}</div>
+      <div class="opts" role="group">${step.cats.map((c,ci)=>`<button class="opt ${sel[k]===ci?"sel":""}" data-k="${k}" data-c="${ci}" aria-pressed="${sel[k]===ci}" ${locked[k]?"disabled":""}>${c}</button>`).join("")}</div></div>`).join("");
+    $("#chk").style.display=state.games[key]?"none":"";
+    $("#chk").disabled=Object.keys(sel).length<step.items.length;
+    $("#rows").querySelectorAll(".opt").forEach(b=>b.onclick=()=>{sel[+b.dataset.k]=+b.dataset.c;draw();});
+  }
+  $("#chk").onclick=()=>{
+    attempts++; let good=0; const bad=[];
+    step.items.forEach((it,k)=>{ if(sel[k]===it.c){ if(!locked[k]) credit(`g:${key}:${k}`,attempts===1?5:2,true); locked[k]=true; good++; } else { delete sel[k]; bad.push(k);} });
+    draw(bad);
+    if(good===step.items.length) gameWon(key,fb);
+    else { fb.className="feedback bad"; fb.textContent=`Tienes ${good} de ${step.items.length} correctas. Vuelve a clasificar las marcadas en rojo.`; }
+    hud();
+  };
+  draw();
+  if(solved){fb.className="feedback ok";fb.textContent="Reto superado.";}
+}
+
+/* ===================== SIMULACRO ===================== */
+let timerInt;
+function fmt(ms){const s=Math.max(0,Math.floor(ms/1000));return `${String(Math.floor(s/60)).padStart(2,"0")}:${String(s%60).padStart(2,"0")}`;}
+function tick(){
+  const t=$("#timer"); if(!t){clearInterval(timerInt);return;}
+  const left=40*60000-(Date.now()-state.quiz.started);
+  t.textContent= left>0?`⏱️ ${fmt(left)}`:"⏱️ Tiempo sugerido cumplido";
+  t.classList.toggle("late",left<5*60000);
+}
+function renderQuiz(){
+  const Q=state.quiz; const i=Q.cur; const it=QUIZ[i];
+  const answered=Q.ans.filter(a=>a!==null).length;
+  app.innerHTML=`<section>
+    <button class="back" data-act="map">Volver a la ruta</button>
+    <div class="qtop"><h2>Simulacro final</h2><span class="timer" id="timer"></span></div>
+    <p class="hint" style="margin:0">Veinte preguntas de selección múltiple con única respuesta. Tiempo sugerido: 40 minutos. Respondidas: ${answered} de 20.</p>
+    <div class="dots">${QUIZ.map((_,k)=>`<button class="dot ${Q.ans[k]!==null?"ans":""} ${k===i?"cur":""}" data-q="${k}" aria-label="Pregunta ${k+1}">${k+1}</button>`).join("")}</div>
+    <article class="step">
+      <p class="qtext">${i+1}. ${it.q}</p>
+      <div class="answers">${it.o.map((o,k)=>`<button class="ans-btn ${Q.ans[i]===k?"sel":""}" data-o="${k}" aria-pressed="${Q.ans[i]===k}"><span class="l">${LETTERS[k]}</span><span>${o}</span></button>`).join("")}</div>
+    </article>
+    <nav class="step-nav">
+      <button class="btn" id="qprev" ${i===0?"disabled":""}>Anterior</button>
+      ${i<19?`<button class="btn primary" id="qnext">Siguiente</button>`:`<button class="btn go" id="qsend">Entregar simulacro</button>`}
+    </nav>
+    ${i<19?`<p style="text-align:right"><button class="linkbtn" id="qsend2">Entregar ahora</button></p>`:""}
+  </section>`;
+  tick(); clearInterval(timerInt); timerInt=setInterval(tick,1000);
+  app.querySelectorAll(".dot").forEach(b=>b.onclick=()=>{Q.cur=+b.dataset.q;save();renderQuiz();});
+  app.querySelectorAll(".ans-btn").forEach(b=>b.onclick=()=>{Q.ans[i]=+b.dataset.o;save();renderQuiz();});
+  $("#qprev").onclick=()=>{Q.cur=i-1;save();renderQuiz();};
+  const qn=$("#qnext"); if(qn) qn.onclick=()=>{Q.cur=i+1;save();renderQuiz();window.scrollTo({top:0});};
+  const send=()=>{
+    const miss=Q.ans.filter(a=>a===null).length;
+    if(miss && !confirm(`Te faltan ${miss} pregunta(s) por responder. ¿Quieres entregar de todos modos?`)) return;
+    Q.done=true; clearInterval(timerInt);
+    QUIZ.forEach((q,k)=>{ if(Q.ans[k]===q.a) credit(`q:${k}`,10,true); });
+    save(); hud(); go("result");
+  };
+  const s1=$("#qsend"); if(s1) s1.onclick=send;
+  const s2=$("#qsend2"); if(s2) s2.onclick=send;
+}
+function results(){
+  const good=QUIZ.filter((q,k)=>state.quiz.ans[k]===q.a).length;
+  const nota=good*0.25; const lvl=LEVELS.find(l=>nota>=l.min);
+  return {good,nota,lvl,txt:nota.toFixed(2).replace(".",",")};
+}
+function renderResult(){
+  const r=results();
+  app.innerHTML=`<section>
+    <button class="back" data-act="map">Volver a la ruta</button>
+    <h2>Resultado del simulacro</h2>
+    <div class="step score">
+      <div class="big">${r.good}/20</div>
+      <p>Nota del simulacro: <strong>${r.txt}</strong> de 5,0 (0,25 por respuesta correcta)</p>
+      <span class="lvl">Nivel ${r.lvl.n}</span>
+      <p class="hint">${r.lvl.d}</p>
+    </div>
+    <h3 style="margin-top:1.4rem">Revisión de respuestas</h3>
+    <ol class="review">${QUIZ.map((q,k)=>{const a=state.quiz.ans[k];const ok=a===q.a;
+      return `<li class="${ok?"ok":"bad"}">${ok?"✅":"❌"} <strong>${k+1}.</strong> ${q.q}
+      <small>Tu respuesta: ${a===null?"sin responder":`${LETTERS[a]}. ${q.o[a]}`}</small>
+      ${ok?"":`<small>Respuesta correcta: ${LETTERS[q.a]}. ${q.o[q.a]}</small>`}</li>`;}).join("")}</ol>
+    <p style="text-align:center;margin-top:1.2rem"><button class="btn go" id="toSelf">Seguir a la autoevaluación</button></p>
+  </section>`;
+  $("#toSelf").onclick=()=>go("final");
+}
+
+/* ===================== DIPLOMA Y AUTOEVALUACIÓN ===================== */
+function renderFinal(){
+  const r=results();
+  const opts=["Sí","A veces","No"];
+  let written="";
+  STATIONS.forEach(st=>{
+    let block="";
+    st.steps.forEach((s,i)=>{ if(s.type!=="write") return;
+      s.fields.forEach((f,k)=>{const v=state.writes[`${st.id}-${i}-${k}`]; if(v&&v.trim()) block+=`<p class="q">${s.title}: ${f}</p><p>${esc(v)}</p>`;});
+    });
+    written+=`<h4>${st.icon} ${st.title}</h4>${block||"<p>Sin respuestas escritas.</p>"}`;
+  });
+  app.innerHTML=`<section>
+    <button class="back noprint" data-act="map">Volver a la ruta</button>
+    <div class="diploma">
+      <p style="margin:0;font-weight:700">IED Marco Fidel Suárez, Barranquilla</p>
+      <h2>Diploma de expedición</h2>
+      <p style="margin:.6rem 0 0">Se otorga a</p>
+      <p class="who">${esc(state.name||"Estudiante")}</p>
+      <p>por recorrer la guía de trabajo intensivo de Ciencias Sociales y Competencias Ciudadanas de grado sexto.</p>
+      <div class="seals">${STATIONS.map(s=>`<span title="${s.short}">${state.done[s.id]?s.icon:"·"}</span>`).join("")}<span title="Simulacro">${state.quiz.done?"🏆":"·"}</span></div>
+      <div class="stats"><span>⭐ ${state.xp} estrellas</span><span>🏅 ${sealsCount()}/5 sellos</span><span>📝 Simulacro: ${state.quiz.done?`${r.good}/20, nota ${r.txt}`:"pendiente"}</span></div>
+      <p><span class="rank">${rank()}</span> ${state.quiz.done?`<span class="rank">Nivel ${r.lvl.n}</span>`:""}</p>
+      <p class="hint">Docente: Grace De La Rans</p>
+    </div>
+    <h3 style="margin-top:1.6rem">Autoevaluación</h3>
+    <p class="hint">Marca una opción en cada afirmación.</p>
+    <div class="table-wrap"><table class="selfeval"><thead><tr><th>Afirmación</th>${opts.map(o=>`<th>${o}</th>`).join("")}</tr></thead>
+    <tbody>${SELF.map((s,k)=>`<tr><td>${s}</td>${opts.map(o=>`<td><input type="radio" name="se${k}" value="${o}" aria-label="${o}" ${state.self[k]===o?"checked":""}></td>`).join("")}</tr>`).join("")}</tbody></table></div>
+    <details><summary>Mis respuestas escritas</summary><div class="answers-print">${written}</div></details>
+    <p class="noprint" style="text-align:center;margin-top:1.2rem"><button class="btn primary" id="print">Imprimir o guardar en PDF para la docente</button></p>
+  </section>`;
+  app.querySelectorAll(".selfeval input").forEach(inp=>inp.onchange=()=>{const k=+inp.name.slice(2);state.self[k]=inp.value;save();credit("self:"+k,2);});
+  $("#print").onclick=()=>{app.querySelectorAll("details").forEach(d=>d.open=true);window.print();};
+}
+
+/* ===================== ARRANQUE ===================== */
+function render(){
+  hud();
+  const v=state.view;
+  if(v==="station") renderStation();
+  else if(v==="quiz") (state.quiz.done?renderResult:renderQuiz)();
+  else if(v==="result") renderResult();
+  else if(v==="final") renderFinal();
+  else renderMap();
+}
+render();
+</script>
+</body>
+</html>
